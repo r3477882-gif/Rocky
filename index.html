@@ -3,196 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <title>Shankar Company Payment Portal</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing:border-box; }
-
-body {
+body{
   margin:0;
   font-family:Poppins, sans-serif;
-  background: linear-gradient(-45deg,#1a2a6c,#b21f1f,#fdbb2d,#0f2027);
-  background-size: 400% 400%;
-  animation: bgMove 12s infinite alternate;
+  background:linear-gradient(135deg,#1d2671,#c33764);
   color:white;
-}
-
-@keyframes bgMove {
-  0%{background-position:0% 50%;}
-  100%{background-position:100% 50%;}
-}
-
-.wrap {
   display:flex;
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  padding:20px;
 }
 
-.card {
+.card{
   width:420px;
   background:rgba(255,255,255,0.12);
-  backdrop-filter: blur(14px);
-  border-radius:22px;
+  backdrop-filter:blur(14px);
+  border-radius:20px;
   padding:28px;
-  box-shadow:0 0 40px rgba(0,0,0,.45);
-  animation: pop 0.6s ease;
-}
-
-@keyframes pop {
-  from{transform:scale(.85); opacity:0}
-  to{transform:scale(1); opacity:1}
-}
-
-.title {
-  font-size:26px;
-  font-weight:700;
+  box-shadow:0 0 30px rgba(0,0,0,.4);
   text-align:center;
 }
 
-.badge {
-  text-align:center;
-  font-size:13px;
-  opacity:.85;
-  margin-bottom:15px;
-}
+h1{margin:0;font-size:26px}
+.badge{opacity:.85;font-size:13px;margin-bottom:10px}
+.clock{font-size:14px;margin-bottom:15px}
 
-.clock {
-  text-align:center;
-  font-size:14px;
-  margin-bottom:15px;
-  opacity:.9;
-}
-
-.qrbox {
+.qr{
   background:white;
-  padding:12px;
-  border-radius:16px;
-  text-align:center;
-}
-
-.qrbox img {
+  padding:10px;
+  border-radius:14px;
   width:220px;
 }
 
-input {
+input{
   width:100%;
-  padding:13px;
+  padding:12px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   margin-top:12px;
   font-size:15px;
 }
 
-button {
+button{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:14px;
+  border-radius:12px;
   margin-top:14px;
   font-size:16px;
   font-weight:600;
   cursor:pointer;
-  background: linear-gradient(90deg,#00f260,#0575e6);
+  background:linear-gradient(90deg,#00f260,#0575e6);
   color:white;
-  transition:.25s;
 }
 
-button:hover {
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
-}
+button:hover{opacity:.9}
 
-.token {
-  margin-top:18px;
-  padding:14px;
-  border-radius:14px;
-  background:#00ffb322;
+.tokenBox{
   display:none;
-  animation: fade .4s ease;
+  margin-top:16px;
+  background:#00ffb322;
+  padding:12px;
+  border-radius:12px;
+  font-weight:600;
 }
 
-@keyframes fade {
-  from{opacity:0; transform:translateY(10px)}
-  to{opacity:1; transform:translateY(0)}
-}
-
-.copyBtn {
+.copyBtn{
   background:#222;
-  margin-top:10px;
 }
 
-.footer {
-  text-align:center;
+.small{
   font-size:12px;
-  opacity:.7;
-  margin-top:14px;
+  opacity:.75;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
 <div class="card">
+  <h1>Shankar Company</h1>
+  <div class="badge">Secure UPI Payment Portal</div>
+  <div class="clock" id="clock"></div>
 
-<div class="title">Shankar Company</div>
-<div class="badge">Secure UPI Payment Portal</div>
-<div class="clock" id="clock"></div>
+  <img src="qr.png" class="qr">
 
-<div class="qrbox">
-  <img src="qr.png">
-</div>
+  <input id="name" placeholder="Customer Name">
+  <input id="amount" type="number" placeholder="Amount ₹">
 
-<input id="name" placeholder="Customer Name">
-<input id="amount" type="number" placeholder="Amount ₹">
+  <button onclick="makeToken()">✅ Payment Done — Generate Token</button>
 
-<button onclick="makeToken()">✅ Payment Done — Generate Token</button>
+  <div class="tokenBox" id="tokenBox"></div>
 
-<div class="token" id="tokenBox"></div>
+  <button class="copyBtn" onclick="copyToken()">📋 Copy Token</button>
 
-<button class="copyBtn" onclick="copyToken()">📋 Copy Token</button>
-
-<div class="footer">
-Manual verification required • Send token screenshot
-</div>
-
-</div>
+  <div class="small">Manual verification required</div>
 </div>
 
 <script>
 let currentToken = "";
 
+/* live clock */
 function updateClock(){
-  const d = new Date();
-  document.getElementById("clock").innerHTML =
-    "🕒 " + d.toLocaleString();
+  document.getElementById("clock").innerText =
+    "🕒 " + new Date().toLocaleString();
 }
 setInterval(updateClock,1000);
 updateClock();
 
+/* token generator */
 function makeToken(){
-  let n = name.value.trim();
-  let a = amount.value.trim();
+  const n = document.getElementById("name").value.trim();
+  const a = document.getElementById("amount").value.trim();
 
   if(!n || !a){
-    alert("Naam aur amount daalo 🙂");
+    alert("Naam aur amount bharo 🙂");
     return;
   }
 
-  let t = Date.now().toString().slice(-8);
-  let r = Math.floor(Math.random()*900+100);
-  currentToken = "SC-"+t+"-"+r;
+  const t = Date.now().toString().slice(-7);
+  const r = Math.floor(Math.random()*900+100);
+  currentToken = "SC-" + t + "-" + r;
 
-  let box = document.getElementById("tokenBox");
+  const box = document.getElementById("tokenBox");
   box.style.display="block";
   box.innerHTML =
     "🎫 TOKEN GENERATED<br><b>"+currentToken+"</b><br>" +
     "Name: "+n+"<br>Amount: ₹"+a;
 }
 
+/* copy token */
 function copyToken(){
   if(!currentToken){
     alert("Pehle token generate karo 😄");
