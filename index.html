@@ -2,150 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shankar Company Payment Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  font-family:Poppins, sans-serif;
-  background:linear-gradient(135deg,#1d2671,#c33764);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-}
-
-.card{
-  width:420px;
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(14px);
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 0 30px rgba(0,0,0,.4);
-  text-align:center;
-}
-
-h1{margin:0;font-size:26px}
-.badge{opacity:.85;font-size:13px;margin-bottom:10px}
-.clock{font-size:14px;margin-bottom:15px}
-
-.qr{
-  background:white;
-  padding:10px;
-  border-radius:14px;
-  width:220px;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  margin-top:12px;
-  font-size:15px;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  margin-top:14px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  background:linear-gradient(90deg,#00f260,#0575e6);
-  color:white;
-}
-
-button:hover{opacity:.9}
-
-.tokenBox{
-  display:none;
-  margin-top:16px;
-  background:#00ffb322;
-  padding:12px;
-  border-radius:12px;
-  font-weight:600;
-}
-
-.copyBtn{
-  background:#222;
-}
-
-.small{
-  font-size:12px;
-  opacity:.75;
-  margin-top:10px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="card">
-  <h1>Shankar Company</h1>
-  <div class="badge">Secure UPI Payment Portal</div>
-  <div class="clock" id="clock"></div>
-
-  <img src="qr.png" class="qr">
-
-  <input id="name" placeholder="Customer Name">
-  <input id="amount" type="number" placeholder="Amount ₹">
-
-  <button onclick="makeToken()">✅ Payment Done — Generate Token</button>
-
-  <div class="tokenBox" id="tokenBox"></div>
-
-  <button class="copyBtn" onclick="copyToken()">📋 Copy Token</button>
-
-  <div class="small">Manual verification required</div>
-</div>
+<title>Redirecting...</title>
 
 <script>
-let currentToken = "";
-
-/* live clock */
-function updateClock(){
-  document.getElementById("clock").innerText =
-    "🕒 " + new Date().toLocaleString();
-}
-setInterval(updateClock,1000);
-updateClock();
-
-/* token generator */
-function makeToken(){
-  const n = document.getElementById("name").value.trim();
-  const a = document.getElementById("amount").value.trim();
-
-  if(!n || !a){
-    alert("Naam aur amount bharo 🙂");
-    return;
-  }
-
-  const t = Date.now().toString().slice(-7);
-  const r = Math.floor(Math.random()*900+100);
-  currentToken = "SC-" + t + "-" + r;
-
-  const box = document.getElementById("tokenBox");
-  box.style.display="block";
-  box.innerHTML =
-    "🎫 TOKEN GENERATED<br><b>"+currentToken+"</b><br>" +
-    "Name: "+n+"<br>Amount: ₹"+a;
-}
-
-/* copy token */
-function copyToken(){
-  if(!currentToken){
-    alert("Pehle token generate karo 😄");
-    return;
-  }
-  navigator.clipboard.writeText(currentToken);
-  alert("Token copied ✅");
-}
+window.location.href = "https://wa.aisensy.com/+15558312800";
 </script>
+
+</head>
+<body>
+
+<p>If you are not redirected automatically, <a href="https://wa.aisensy.com/+15558312800">click here</a>.</p>
 
 </body>
 </html>
